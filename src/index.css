@@ -197,21 +197,27 @@ table {
 /* main */
 .page-container {
     display: flex;
+    width: 100lvw;
 }
+.main-section {
+    width: 100lvw;
+}
+
 .main-title {
-    font-size: 48px;
+    font-size: 56px;
     line-height: 24px;
     margin-bottom: 1em;
+    font-weight: 700;
 }
 
 .main-title-text {
-    font-size: 24px;
+    font-size: 32px;
 }
 
 .main-title-container {
     padding: 5%;
     height: 10em;
-    margin-bottom: 5em;
+    margin-bottom: 2em;
 }
 
 .main-container {

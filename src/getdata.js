@@ -1,30 +1,25 @@
 import data from './data.json'
 
-export const getUserInfos = () => {
-    //console.log(data.USER_MAIN_DATA.userInfos)
-    return data.USER_MAIN_DATA.userInfos
+export const getUserActivity = (userId) => {
+    let key = 'USER_ACTIVITY'
+    let session = []
+    data[key].forEach((item) => {
+        console.log(item)
+        if (item.userId === userId) {
+            session = item.sessions
+        }
+    })
+    console.log(session)
+    return session
 }
 
-export const getTodayScore = () => {
-    console.log(data.USER_MAIN_DATA.todayScore)
-    return data.USER_MAIN_DATA.todayScore
+export const getUserAverageSession = (userId) => {
+    let key = 'USER_AVERAGE_SESSIONS'
+    let session = []
+    data[key].forEach((item) => {
+        if (item.userId === userId) {
+            session = item.sessions
+        }
+    })
+    return session
 }
-
-export const getScore = () => {
-    console.log(data.USER_MAIN_DATA.score)
-    return data.USER_MAIN_DATA.score
-}
-
-export const getkeyData = () => {
-    console.log(data.USER_MAIN_DATA.keyData)
-    return data.USER_MAIN_DATA.keyData
-}
-
-//export default getkeyData
-
-// const getUserInfos = () => {
-//     console.log(data.USER_MAIN_DATA.userInfos)
-//     return data.USER_MAIN_DATA.userInfos
-// }
-
-//export default getUserInfos
