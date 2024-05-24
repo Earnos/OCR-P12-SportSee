@@ -180,7 +180,7 @@ table {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 67lh;
     width: 7em;
     background-color: #000000;
     .side-bar-icon {
@@ -224,4 +224,44 @@ table {
     display: flex;
     flex-direction: column;
     margin: 5em 0 0 5em;
+}
+
+.bottom-graph {
+    display: flex;
+}
+
+.recharts-container {
+    display: flex;
+}
+
+/* stats right side sceen */
+.scores-container {
+    display: flex;
+    align-items: center;
+    width: 258px;
+    height: 124px;
+}
+
+.stat-icon > img {
+    width: 60px;
+    height: 60px;
+}
+
+.stat-value {
+    color: #282d30;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    padding: 8px;
+}
+
+.bottom-graph {
+    margin: 3rem 0 3rem 3rem;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.left-graph-section {
+    width: 100%;
 }

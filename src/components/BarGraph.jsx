@@ -12,7 +12,7 @@ import {
 const BarGraph = () => {
     let userActivity = getUserActivity(12)
     return (
-        <ResponsiveContainer width="65%" height={300} >
+        <ResponsiveContainer width="90%" height={300} >
         <BarChart  data={userActivity} barGap={10} margin={{
             top: 5,
             right: 30,
