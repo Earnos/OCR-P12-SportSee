@@ -20,41 +20,56 @@ export const getUserAverageSession = (userId) => {
     return findUserSessions(key, userId)
 }
 
-export const getUserMainData = () => {
-    const key = 'USER_MAIN_DATA'
-    return findUserSessions(key, userId)
-}
-
 export const getUserPerformance = (userId) => {
     const key = 'USER_PERFORMANCE'
     let datas = []
     data[key].forEach((item) => {
         if (item.userId === userId) {
-            datas = item.data
+            datas = item // datas = item.data
         }
     })
     return datas
 }
-// export const getUserActivity = (userId) => {
-//     let key = 'USER_ACTIVITY'
-//     let session = []
-//     data[key].forEach((item) => {
-//         console.log(item)
-//         if (item.userId === userId) {
-//             session = item.sessions
-//         }
-//     })
-//     console.log(session)
-//     return session
-// }
 
-// export const getUserAverageSession = (userId) => {
-//     let key = 'USER_AVERAGE_SESSIONS'
-//     let session = []
-//     data[key].forEach((item) => {
-//         if (item.userId === userId) {
-//             session = item.sessions
-//         }
-//     })
-//     return session
-// }
+// Get Statistcs of main user (calories, lipids...)
+const findUserStats = (key, userId) => {
+    let result = null
+    data[key].forEach((item) => {
+        if (item.id === userId) {
+            result = item
+        }
+    })
+    return result
+}
+
+export const getUserMainData = (userId) => {
+    const key = 'USER_MAIN_DATA'
+    const userData = findUserStats(key, userId)
+
+    if (!userData || !userData.keyData) {
+        return null
+    }
+
+    const { calorieCount, proteinCount, carbohydrateCount, lipidCount } =
+        userData.keyData
+
+    return {
+        calorieCount,
+        proteinCount,
+        carbohydrateCount,
+        lipidCount,
+    }
+}
+
+export const getUserName = (userId) => {
+    const key = 'USER_MAIN_DATA'
+    const userData = findUserStats(key, userId)
+
+    if (!userData || !userData.userInfos) {
+        return null
+    }
+
+    const userName = userData.userInfos
+
+    return userName
+}

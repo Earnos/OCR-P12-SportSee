@@ -1,9 +1,10 @@
-const Title = () => {
-    const data = [{ name: 'Page A', uv: 400, pv: 2400, amt: 2400 }]
+import PropTypes from 'prop-types'
+
+const Title = (props) => {
     return (
         <>
             <div className="main-title-container">
-                <h1 className="main-title">Bonjour 'Cyril'</h1>
+                <h1 className="main-title">Bonjour <span className="title-name">{props.name}</span></h1>
                 <p className="main-title-text">
                     Félicitation ! Vous avez explosé vos objectifs hier 👏
                 </p>
@@ -13,3 +14,7 @@ const Title = () => {
 }
 
 export default Title
+
+Title.propTypes = {
+    name: PropTypes.string
+}

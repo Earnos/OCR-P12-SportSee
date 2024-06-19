@@ -131,6 +131,8 @@ table {
 /* reset css end */
 
 /* Project css start */
+
+/*Header*/
 .header-container {
     position: relative;
     display: flex;
@@ -174,13 +176,13 @@ table {
     }
 }
 
-/*Side bar style*/
+/*LeftSide screen whit navBar*/
 .side-bar-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 67lh;
+    height: 73lh;
     width: 7em;
     background-color: #000000;
     .side-bar-icon {
@@ -203,6 +205,7 @@ table {
     width: 100lvw;
 }
 
+/* main title */
 .main-title {
     font-size: 56px;
     line-height: 24px;
@@ -220,26 +223,72 @@ table {
     margin-bottom: 2em;
 }
 
-.main-container {
-    display: flex;
-    flex-direction: column;
-    margin: 5em 0 0 5em;
+.title-name {
+    color: #ff0000;
 }
 
-.bottom-graph {
-    display: flex;
+/* Main graph*/
+.barGraphTitle {
+    position: absolute;
+    margin-left: 10%;
+    font-weight: 600;
 }
 
 .recharts-container {
     display: flex;
 }
 
-/* stats right side sceen */
+.bar-line-title {
+    color: #ffffff;
+    padding: 1.2em;
+    position: absolute;
+}
+
+.linegraph-container {
+    width: 26%;
+    background-color: #ff0000;
+    border-radius: 3%;
+    margin-left: 3%;
+}
+
+.bottom-graph {
+    margin: 3rem 0 3rem 3rem;
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.radar-container {
+    width: 26%;
+    background-color: #282d30;
+    border-radius: 3%;
+}
+
 .scores-container {
     display: flex;
     align-items: center;
     width: 258px;
     height: 124px;
+}
+
+.scoreGraphText {
+    position: absolute;
+    margin: 7em 10px 0 7em;
+    width: 5%;
+}
+
+.scoreGraphText:nth-child(1) {
+    margin-top: 110px;
+    font-weight: 800;
+}
+
+.left-graph-section {
+    width: 80%;
+}
+
+/* stats right side sceen */
+.right-graph-section {
+    margin-right: 10%;
 }
 
 .stat-icon > img {
@@ -255,13 +304,29 @@ table {
     padding: 8px;
 }
 
-.bottom-graph {
-    margin: 3rem 0 3rem 3rem;
-    width: 90%;
-    display: flex;
-    justify-content: space-between;
+.stat-name {
+    margin-left: 10px;
 }
 
-.left-graph-section {
-    width: 100%;
+.score-title {
+    position: absolute;
+    margin-top: 25px;
+    font-weight: 600;
 }
+
+.score-pourcentage {
+    font-size: 24px;
+    margin-bottom: 5px;
+    padding: 6%;
+}
+
+.score-text {
+    margin-top: 5px;
+    font-weight: 500;
+    color: #a7a6a6;
+    line-height: 1.5em;
+}
+
+/* .recharts-wrapper {
+    height: 240px;
+} */

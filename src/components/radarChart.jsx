@@ -1,40 +1,47 @@
 import { getUserPerformance } from '../getdata'
+import data from '../data.json'
+import PropTypes from 'prop-types'
 import {
     PolarGrid,
     PolarAngleAxis,
-    PolarRadiusAxis,
     Radar,
     RadarChart,
-    Legend,
     ResponsiveContainer,
 } from 'recharts'
 
-const RadarGraph = () => {
-    let userPerformance = getUserPerformance(12)
-    console.log(userPerformance);
+const RadarGraph = (props) => {
+    let userPerformance = getUserPerformance(props.id)
     return (
-        <ResponsiveContainer width="30%" height={250}>
+        <ResponsiveContainer width="100%" height={250}>
             <RadarChart
                 outerRadius={90}
                 width={730}
                 height={250}
-                data={userPerformance}
+                data={userPerformance.data}
+                cy="60%"
             >
                 <PolarGrid />
                 <PolarAngleAxis dataKey="kind" />
-                <PolarRadiusAxis angle={30} domain={[0, 150]} />
                 <Radar
-                    name="kind"
-                    dataKey="A"
-                    stroke="#8884d8"
-                    fill="red"
+                    name={props.id}
+                    dataKey="value"
+                    label="false"
+                    fill="rgba(255, 1, 1, 0.70)"
                     fillOpacity={0.6}
+                    data={data.USER_PERFORMANCE[1].data.map((entry) => ({
+                        kind: data.USER_PERFORMANCE[1].kind[
+                            entry.kind.toString()
+                        ],
+                        value: entry.value,
+                    }))}
                 />
-              
-                <Legend />
             </RadarChart>
         </ResponsiveContainer>
     )
 }
 
 export default RadarGraph
+
+RadarGraph.propTypes = {
+    id: PropTypes.number,
+}

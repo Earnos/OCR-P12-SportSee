@@ -1,35 +1,47 @@
-import { RadialBar, RadialBarChart, Legend, Tooltip, ResponsiveContainer } from 'recharts'
-// import data from '../data.json'
+import {
+    RadialBar,
+    RadialBarChart,
+    Tooltip,
+    ResponsiveContainer
+} from 'recharts'
 
-let data = [{name: 'a', value: 10}, {name: 'b', value: 24}]
+
+let data = [{ name: 'Score', value: '5' }]
 
 const ScoreGraph = () => {
     return (
-        <ResponsiveContainer  width="30%"height={220}>
+        <ResponsiveContainer width="30%" height={220}>
+            <div className='scoreGraphText'>
+                <span className='score-pourcentage'>65%</span><br/>
+                <span className='score-text' >de votre objectif</span>
+                
+            </div>
+            <div className='score-title'>
+            <span >Score</span>
+            </div>
             <RadialBarChart
                 width={220}
                 height={220}
-                innerRadius="60%"
-                outerRadius="90%"
+                innerRadius="80%"
+                outerRadius="100%"
+                cx={135}
+                cy={135}
                 data={data}
-                startAngle={180}
-                endAngle={0}
+                startAngle={230}
+                endAngle={55}
+                fill="red"
+                radius={[5, 5, 0, 0]}
             >
                 <RadialBar
                     minAngle={15}
-                    label={{ fill: 'red', position: 'insideStart' }}
+                    label={{ fill: '#d31100', position: 'insideStart' }}
                     background
                     clockWise={true}
                     dataKey="value"
-                    barSize="30"
-                />
-                <Legend
-                    iconSize={10}
-                    width={120}
-                    height={140}
-                    layout="vertical"
-                    verticalAlign="top"
-                    align="right"
+                    barSize="12"
+                    legendType="circle"
+                    radius={[10, 0, 0, 10]}
+                    cornerRadius={60}
                 />
                 <Tooltip />
             </RadialBarChart>

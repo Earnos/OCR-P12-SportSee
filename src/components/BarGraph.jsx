@@ -1,4 +1,5 @@
 import { getUserActivity } from '../getdata'
+import PropTypes from 'prop-types'
 import {
     BarChart,
     Bar,
@@ -9,10 +10,11 @@ import {
     ResponsiveContainer,
 } from 'recharts'
 
-const BarGraph = () => {
-    let userActivity = getUserActivity(12)
+const BarGraph = (props) => {
+    const userActivity = getUserActivity(props.id);
     return (
-        <ResponsiveContainer width="90%" height={300} >
+        <ResponsiveContainer width="80%" height={300} >
+            <span className='barGraphTitle'>Activité quotidienne</span>
         <BarChart  data={userActivity} barGap={10} margin={{
             top: 5,
             right: 30,
@@ -21,14 +23,20 @@ const BarGraph = () => {
           }}>
             <Legend name='Activité quotidienne' verticalAlign="top" align='right' iconType='circle' iconSize={8} height={64} margin={{ top: 5, left: 5, right: 5, bottom: 10 }} /> //margin problem
             <XAxis dataKey={userActivity.day} />
-            <YAxis dataKey="kilogram" orientation="right" tickCount={4} type="number" domain={['dataMin', 'dataMax']} />
+            <YAxis dataKey="calories" orientation="right"  type="number" />
             <Tooltip />
             <Legend />
-            <Bar  name="Poids (kg)" dataKey="kilogram" fill="#282D30" barSize={10} />
-            <Bar  name="Calories (Kcal)"  dataKey="calories" fill="#E60000" barSize={10} />
+            <Bar  name="Poids (kg)" dataKey="kilogram" fill="#282D30" barSize={10} radius={[5, 5, 0, 0]} />
+            <Bar  name="Calories (Kcal)"  dataKey="calories" fill="#E60000" barSize={10} radius={[5, 5, 0, 0]} />
         </BarChart>
         </ResponsiveContainer>
     )
 }
 
 export default BarGraph
+
+
+BarGraph.propTypes = {
+    id: PropTypes.number,
+    day: PropTypes.number
+}
