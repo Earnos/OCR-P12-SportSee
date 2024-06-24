@@ -73,3 +73,65 @@ export const getUserName = (userId) => {
 
     return userName
 }
+
+//////////////////////////////////////////////////////////////////////
+// System api's switch class
+//////////////////////////////////////////////////////////////////////
+
+class SwitchAPI {
+    constructor(useExternalAPI) {
+        this.useExternalAPI = false
+        this.externalAPIBaseUrl = './api'
+    }
+
+    async fetchData() {
+        if (this.useExternalAPI) {
+            return this.fetchFromExternalAPI()
+        } else {
+            return this.fetchFromLocalFile()
+        }
+    }
+
+    async fetchFromExternalAPI() {
+        try {
+            const response = await fetch(this.externalAPIBaseUrl + '/endpoint')
+            if (!response.ok) {
+                throw new Error(
+                    "Erreur lors de la récupération des données depuis l'API externe"
+                )
+            }
+            return await response.json()
+        } catch (error) {
+            console.error("Erreur de récupération depuis l'API externe:", error)
+            throw error
+        }
+    }
+
+    async fetchFromLocalFile() {
+        try {
+            const response = await fetch('./getdata.js')
+            if (!response.ok) {
+                throw new Error(
+                    'Erreur lors de la récupération des données depuis le fichier local'
+                )
+            }
+            return await response.json()
+        } catch (error) {
+            console.error(
+                'Erreur de récupération depuis le fichier local:',
+                error
+            )
+            throw error
+        }
+    }
+}
+///////////////////////////////////////////////////////
+// Recup les données ??
+
+// switch.setSource(true)
+
+// switch.fetchData()
+//     .then(data => {
+//         // get data ?
+//     })
+//     .catch(error => {error})

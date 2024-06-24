@@ -11,10 +11,15 @@ import fatIcon from '../assets/fat-icon.png'
 import glucideIcon from '../assets/carbs-icon.png'
 import ScoreGraph from '../components/scoreGraph'
 import {getUserMainData, getUserName} from "../getdata"
+import { useParams } from 'react-router-dom'
 
 const HomePage = () => {
-    const userMainData = getUserMainData(18)
-    const userFirstName = getUserName(18)
+    let { id } = useParams()
+    const idUser = parseInt(id)
+    const userMainData = getUserMainData(idUser)
+    const userFirstName = getUserName(idUser)
+    console.log(id);
+    console.log(userMainData, userFirstName);
     
     return (
         <>
@@ -27,13 +32,13 @@ const HomePage = () => {
                     </div>
                     <div className="recharts-container">
                         <section className="left-graph-section">
-                            <BarGraph id={18} />
+                            <BarGraph id={idUser} />
                             <div className="bottom-graph">
                                 <div className="linegraph-container">
-                                    <LineGraph id={12} />
+                                    <LineGraph id={idUser} />
                                 </div>
                                 <div className="radar-container">
-                                    <RadarGraph  id={18} />
+                                    <RadarGraph  id={idUser} />
                                 </div>
                                 <ScoreGraph />
                             </div>

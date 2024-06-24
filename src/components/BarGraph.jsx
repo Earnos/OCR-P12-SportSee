@@ -37,6 +37,5 @@ export default BarGraph
 
 
 BarGraph.propTypes = {
-    id: PropTypes.number,
-    day: PropTypes.number
+    id: PropTypes.number
 }
