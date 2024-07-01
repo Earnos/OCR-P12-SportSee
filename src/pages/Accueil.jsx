@@ -12,15 +12,25 @@ import glucideIcon from '../assets/carbs-icon.png'
 import ScoreGraph from '../components/scoreGraph'
 import {getUserMainData, getUserName} from "../getdata"
 import { useParams } from 'react-router-dom'
+import { SwitchAPI } from '../getdata'
+import { useEffect, useState } from 'react'
 
 const HomePage = () => {
     let { id } = useParams()
     const idUser = parseInt(id)
     const userMainData = getUserMainData(idUser)
     const userFirstName = getUserName(idUser)
-    console.log(id);
-    console.log(userMainData, userFirstName);
-    
+    const api = new SwitchAPI(true, idUser)
+    let [userActivity, setUserActivity] = useState([])
+    useEffect(() => {
+        api.fetchData().then((data) => {
+        //acces aux données (plusieurs routes suivants les datas)
+        console.log(api.data)
+        console.log(api.getUserActivity(idUser))
+        setUserActivity(api.getUserActivity(idUser)) 
+    })
+    },[])
+    console.log(userActivity)
     return (
         <>
             <Header />
