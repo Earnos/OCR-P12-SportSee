@@ -123,6 +123,17 @@ export class SwitchAPI {
             let data = {
                 USER_ACTIVITY: [activityData.data],
             }
+            ///// 2eme fetch
+            const responsePerf = await fetch(
+                this.externalAPIBaseUrl + this.userId + '/performance'
+            )
+            if (!responsePerf.ok) {
+                throw new Error(
+                    "Erreur lors de la récupération des données depuis l'API externe"
+                )
+            }
+            let perfData = await responsePerf.json()
+            data['USER_PERFORMANCE'] = [perfData.data]
             console.log(data)
             return data
         } catch (error) {

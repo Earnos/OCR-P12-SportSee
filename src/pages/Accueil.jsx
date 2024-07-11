@@ -20,11 +20,23 @@ const HomePage = () => {
     const idUser = parseInt(id)
     const userMainData = getUserMainData(idUser)
     const userFirstName = getUserName(idUser)
-    const api = new SwitchAPI(true, idUser)
+    const useExternalApi = true
+    const api = new SwitchAPI(useExternalApi, idUser)
     let [userActivity, setUserActivity] = useState([])
+    
     useEffect(() => {
         api.fetchData().then((data) => {
         //acces aux données (plusieurs routes suivants les datas)
+
+        // // données retournées par l'API
+        // const mainData = api.data.mainData
+        // const firstName = api.data.firstName
+        // const activityData = api.getUserActivity(idUser)
+
+        // setUserMainData(mainData)
+        // setUserFirstName(firstName)
+        // setUserActivity(activityData)
+
         console.log(api.data)
         console.log(api.getUserActivity(idUser))
         setUserActivity(api.getUserActivity(idUser)) 
