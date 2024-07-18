@@ -1,4 +1,3 @@
-import { getUserPerformance } from '../getdata'
 import data from '../data.json'
 import PropTypes from 'prop-types'
 import {
@@ -10,14 +9,14 @@ import {
 } from 'recharts'
 
 const RadarGraph = (props) => {
-    let userPerformance = getUserPerformance(props.id)
+    const userPerformance = props.performance 
     return (
         <ResponsiveContainer width="100%" height={250}>
             <RadarChart
                 outerRadius={90}
                 width={730}
                 height={250}
-                data={userPerformance.data}
+                data={userPerformance}
                 cy="60%"
             >
                 <PolarGrid />

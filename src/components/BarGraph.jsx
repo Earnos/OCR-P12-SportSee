@@ -1,4 +1,3 @@
-import { getUserActivity } from '../getdata'
 import PropTypes from 'prop-types'
 import {
     BarChart,
@@ -11,7 +10,7 @@ import {
 } from 'recharts'
 
 const BarGraph = (props) => {
-    const userActivity = getUserActivity(props.id);
+    const userActivity = props.activity
     return (
         <ResponsiveContainer width="80%" height={300} >
             <span className='barGraphTitle'>Activité quotidienne</span>

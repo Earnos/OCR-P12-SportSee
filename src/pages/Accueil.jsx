@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import Header from '../components/header'
 import SideBar from '../components/sideBar'
 import Title from '../components/title'
@@ -10,57 +12,60 @@ import carbsIcone from '../assets/protein-icon.png'
 import fatIcon from '../assets/fat-icon.png'
 import glucideIcon from '../assets/carbs-icon.png'
 import ScoreGraph from '../components/scoreGraph'
-import {getUserMainData, getUserName} from "../getdata"
-import { useParams } from 'react-router-dom'
 import { SwitchAPI } from '../getdata'
-import { useEffect, useState } from 'react'
 
 const HomePage = () => {
     let { id } = useParams()
     const idUser = parseInt(id)
-    const userMainData = getUserMainData(idUser)
-    const userFirstName = getUserName(idUser)
     const useExternalApi = true
     const api = new SwitchAPI(useExternalApi, idUser)
-    let [userActivity, setUserActivity] = useState([])
-    
+
+    const [userMainData, setUserMainData] = useState({})
+    const [userActivity, setUserActivity] = useState([])
+    const [userPerformance, setUserPerformance] = useState([])
+    const [userAverageSessions, setAverageSessions] = useState([])
+    const [userFirstName, setUserFirstName] = useState('')
+
     useEffect(() => {
-        api.fetchData().then((data) => {
-        //acces aux données (plusieurs routes suivants les datas)
+        const fetchDataAndSetState = async () => {
+            try {
+                await api.fetchData()
 
-        // // données retournées par l'API
-        // const mainData = api.data.mainData
-        // const firstName = api.data.firstName
-        // const activityData = api.getUserActivity(idUser)
+                setUserMainData(api.getUserMainData(idUser))
+                setUserActivity(api.getUserActivity(idUser))
+                setUserPerformance(api.getUserPerformance(idUser))
+                setAverageSessions(api.getUserAverageSession(idUser))
+                const userInfo = await api.getUserName(idUser)
+                setUserFirstName(userInfo.firstName)
 
-        // setUserMainData(mainData)
-        // setUserFirstName(firstName)
-        // setUserActivity(activityData)
+                console.log(api.data)
+            } catch (error) {
+                console.error('Erreur lors du chargement des données :', error)
+            }
+        }
 
-        console.log(api.data)
-        console.log(api.getUserActivity(idUser))
-        setUserActivity(api.getUserActivity(idUser)) 
-    })
-    },[])
-    console.log(userActivity)
+        fetchDataAndSetState()
+    }, [idUser])
+
     return (
+        // faire un contidionnal rendering pour la gestion derreur si fetching error (ternaire)
         <>
             <Header />
             <main className="page-container">
                 <SideBar />
                 <div className="main-section">
                     <div className="name-title-container">
-                        <Title name={userFirstName.firstName} />
+                        <Title name={userFirstName} />
                     </div>
                     <div className="recharts-container">
                         <section className="left-graph-section">
-                            <BarGraph id={idUser} />
+                            <BarGraph id={idUser} activity={userActivity} />
                             <div className="bottom-graph">
                                 <div className="linegraph-container">
-                                    <LineGraph id={idUser} />
+                                    <LineGraph id={idUser}  averageSession ={userAverageSessions} />
                                 </div>
                                 <div className="radar-container">
-                                    <RadarGraph  id={idUser} />
+                                    <RadarGraph id={idUser}  performance={userPerformance} />
                                 </div>
                                 <ScoreGraph />
                             </div>

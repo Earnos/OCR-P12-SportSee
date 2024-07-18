@@ -8,10 +8,9 @@ import {
     CartesianGrid,
     ResponsiveContainer,
 } from 'recharts'
-import { getUserAverageSession } from '../getdata'
 
 const LineGraph = (props) => {
-    let getAverageSession = getUserAverageSession(props.id)
+    const averageSession = props.averageSession
 
     const CustomXAxisTick = ({ x, y, payload }) => {
         const weekDaysArray = ['L', 'M', 'M', 'J', 'V', 'S', 'S']
@@ -30,7 +29,7 @@ const LineGraph = (props) => {
             <LineChart
                 width="100%"
                 height="100%"
-                data={getAverageSession}
+                data={averageSession}
                 margin={{ top: 5, right: 25, bottom: 5, left: 25}}
             >
                 <CartesianGrid stroke="red" />

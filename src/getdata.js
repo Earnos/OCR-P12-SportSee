@@ -42,37 +42,37 @@ const findUserStats = (key, userId) => {
     return result
 }
 
-export const getUserMainData = (userId) => {
-    const key = 'USER_MAIN_DATA'
-    const userData = findUserStats(key, userId)
+// export const getUserMainData = (userId) => {
+//     const key = 'USER_MAIN_DATA'
+//     const userData = findUserStats(key, userId)
 
-    if (!userData || !userData.keyData) {
-        return null
-    }
+//     if (!userData || !userData.keyData) {
+//         return null
+//     }
 
-    const { calorieCount, proteinCount, carbohydrateCount, lipidCount } =
-        userData.keyData
+//     const { calorieCount, proteinCount, carbohydrateCount, lipidCount } =
+//         userData.keyData
 
-    return {
-        calorieCount,
-        proteinCount,
-        carbohydrateCount,
-        lipidCount,
-    }
-}
+//     return {
+//         calorieCount,
+//         proteinCount,
+//         carbohydrateCount,
+//         lipidCount,
+//     }
+// }
 
-export const getUserName = async (userId, data) => {
-    const key = 'USER_MAIN_DATA'
-    const userData = findUserStats(key, userId, data)
+// export const getUserName = async (userId, data) => {
+//     const key = 'USER_MAIN_DATA'
+//     const userData = findUserStats(key, userId, data)
 
-    if (!userData || !userData.userInfos) {
-        return null
-    }
+//     if (!userData || !userData.userInfos) {
+//         return null
+//     }
 
-    const userName = userData.userInfos
+//     const userName = userData.userInfos
 
-    return userName
-}
+//     return userName
+// }
 
 //////////////////////////////////////////////////////////////////////
 // System api's switch class
@@ -100,17 +100,67 @@ export class SwitchAPI {
         return this.findUserSessions(key, userId)
     }
 
+    /////////////////////////
+    getUserMainData = (userId) => {
+        const key = 'USER_MAIN_DATA'
+        const userData = findUserStats(key, userId)
+
+        if (!userData || !userData.keyData) {
+            return null
+        }
+
+        const { calorieCount, proteinCount, carbohydrateCount, lipidCount } =
+            userData.keyData
+
+        return {
+            calorieCount,
+            proteinCount,
+            carbohydrateCount,
+            lipidCount,
+        }
+    }
+    getUserAverageSession(userId) {
+        const key = 'USER_AVERAGE_SESSIONS'
+        return this.findUserSessions(key, userId)
+    }
+
+    getUserPerformance(userId) {
+        const key = 'USER_PERFORMANCE'
+        let datas = []
+        this.data[key].forEach((item) => {
+            if (item.userId === userId) {
+                datas = item // datas = item.data
+            }
+        })
+        return datas
+    }
+    getUserName = async (userId, data) => {
+        const key = 'USER_MAIN_DATA'
+        const userData = findUserStats(key, userId, data)
+
+        if (!userData || !userData.userInfos) {
+            return null
+        }
+
+        const userName = userData.userInfos
+
+        return userName
+    }
+    /////////////////////////
+    // fetch between external and local data
     async fetchData() {
         if (this.useExternalAPI) {
+            console.log("Utilisation de l'API externe")
             this.data = await this.fetchFromExternalAPI()
         } else {
+            console.log('Utilisation des données locales')
             this.data = await this.fetchFromLocalFile()
         }
     }
 
     async fetchFromExternalAPI() {
         try {
-            //appel aux endpoints de l'api ex : http://localhost:3000/user/${userId}/activity (4 fetchs) voir le readme de l'api
+            //appel aux endpoints de l'api
             const response = await fetch(
                 this.externalAPIBaseUrl + this.userId + '/activity'
             )
@@ -123,7 +173,7 @@ export class SwitchAPI {
             let data = {
                 USER_ACTIVITY: [activityData.data],
             }
-            ///// 2eme fetch
+
             const responsePerf = await fetch(
                 this.externalAPIBaseUrl + this.userId + '/performance'
             )
@@ -135,6 +185,31 @@ export class SwitchAPI {
             let perfData = await responsePerf.json()
             data['USER_PERFORMANCE'] = [perfData.data]
             console.log(data)
+
+            const averageSession = await fetch(
+                this.externalAPIBaseUrl + this.userId + '/average-sessions'
+            )
+            if (!averageSession.ok) {
+                throw new Error(
+                    "Erreur lors de la récupération des données depuis l'API externe"
+                )
+            }
+            let averageData = await averageSession.json()
+            data['USER_AVERAGE_SESSIONS'] = [averageData.data]
+
+            const responseMainData = await fetch(
+                this.externalAPIBaseUrl + this.userId
+            )
+            if (!responseMainData.ok) {
+                throw new Error(
+                    "Erreur lors de la récupération des données USER_MAIN_DATA depuis l'API externe"
+                )
+            }
+            let mainData = await responseMainData.json()
+            data['USER_MAIN_DATA'] = [mainData.data]
+
+            this.data = data
+
             return data
         } catch (error) {
             console.error("Erreur de récupération depuis l'API externe:", error)
@@ -144,13 +219,8 @@ export class SwitchAPI {
 
     async fetchFromLocalFile() {
         try {
-            const response = await fetch('./getdata.js')
-            if (!response.ok) {
-                throw new Error(
-                    'Erreur lors de la récupération des données depuis le fichier local'
-                )
-            }
-            return await response.json()
+            this.data = data
+            return data
         } catch (error) {
             console.error(
                 'Erreur de récupération depuis le fichier local:',
