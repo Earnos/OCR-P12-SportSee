@@ -42,38 +42,6 @@ const findUserStats = (key, userId) => {
     return result
 }
 
-// export const getUserMainData = (userId) => {
-//     const key = 'USER_MAIN_DATA'
-//     const userData = findUserStats(key, userId)
-
-//     if (!userData || !userData.keyData) {
-//         return null
-//     }
-
-//     const { calorieCount, proteinCount, carbohydrateCount, lipidCount } =
-//         userData.keyData
-
-//     return {
-//         calorieCount,
-//         proteinCount,
-//         carbohydrateCount,
-//         lipidCount,
-//     }
-// }
-
-// export const getUserName = async (userId, data) => {
-//     const key = 'USER_MAIN_DATA'
-//     const userData = findUserStats(key, userId, data)
-
-//     if (!userData || !userData.userInfos) {
-//         return null
-//     }
-
-//     const userName = userData.userInfos
-
-//     return userName
-// }
-
 //////////////////////////////////////////////////////////////////////
 // System api's switch class
 //////////////////////////////////////////////////////////////////////
@@ -125,15 +93,9 @@ export class SwitchAPI {
     }
 
     getUserPerformance(userId) {
-        const key = 'USER_PERFORMANCE'
-        let datas = []
-        this.data[key].forEach((item) => {
-            if (item.userId === userId) {
-                datas = item // datas = item.data
-            }
-        })
-        return datas
+        return this.userData.getPerformance(userId)
     }
+
     getUserName = async (userId, data) => {
         const key = 'USER_MAIN_DATA'
         const userData = findUserStats(key, userId, data)
@@ -146,7 +108,7 @@ export class SwitchAPI {
 
         return userName
     }
-    /////////////////////////
+
     // fetch between external and local data
     async fetchData() {
         if (this.useExternalAPI) {
@@ -156,6 +118,7 @@ export class SwitchAPI {
             console.log('Utilisation des données locales')
             this.data = await this.fetchFromLocalFile()
         }
+        this.userData = new UserModel(this.data, this.userId)
     }
 
     async fetchFromExternalAPI() {
@@ -184,8 +147,6 @@ export class SwitchAPI {
             }
             let perfData = await responsePerf.json()
             data['USER_PERFORMANCE'] = [perfData.data]
-            console.log(data)
-
             const averageSession = await fetch(
                 this.externalAPIBaseUrl + this.userId + '/average-sessions'
             )
@@ -228,5 +189,89 @@ export class SwitchAPI {
             )
             throw error
         }
+    }
+}
+
+// modelisation's class
+export class UserModel {
+    constructor(data, userId) {
+        this.data = data
+        this.performance = this.loadPerformance(userId)
+        this.userInfos = this.loadUserInfos(userId)
+        this.keyData = this.loadKeyData(userId)
+        this.sessions = this.loadSessions(userId)
+        this.performance = this.loadPerformance(userId)
+    }
+
+    loadUserInfos(userId) {
+        const key = 'USER_MAIN_DATA'
+        let userInfo = null
+        this.data[key].forEach((item) => {
+            if (item.id === userId) {
+                userInfo = item.userInfos
+            }
+        })
+        return userInfo
+    }
+
+    loadKeyData(userId) {
+        const key = 'USER_MAIN_DATA'
+        let keyData = null
+        this.data[key].forEach((item) => {
+            if (item.id === userId) {
+                keyData = item.keyData
+            }
+        })
+        return keyData
+    }
+
+    loadSessions(userId) {
+        const key = 'USER_AVERAGE_SESSIONS'
+        let sessions = null
+        this.data[key].forEach((item) => {
+            if (item.userId === userId) {
+                sessions = item.sessions
+            }
+        })
+        return sessions
+    }
+
+    loadPerformance(userId) {
+        const key = 'USER_PERFORMANCE'
+        let performance = null
+        this.data[key].forEach((item) => {
+            if (item.userId === userId) {
+                performance = item.data
+            }
+        })
+        return performance
+    }
+
+    getMainData() {
+        if (!this.keyData) {
+            return null
+        }
+
+        const { calorieCount, proteinCount, carbohydrateCount, lipidCount } =
+            this.keyData
+
+        return {
+            calorieCount,
+            proteinCount,
+            carbohydrateCount,
+            lipidCount,
+        }
+    }
+
+    getSessions() {
+        return this.sessions
+    }
+
+    getPerformance() {
+        return this.performance
+    }
+
+    getUserName() {
+        return this.userInfos?.firstName || null
     }
 }

@@ -22,7 +22,6 @@ const LineGraph = (props) => {
                 </g>
         )
     }
-
     return (
         <ResponsiveContainer width="100%" height={300}>
             <span className="bar-line-title">Durée moyenne des sessions</span>
@@ -57,5 +56,5 @@ const LineGraph = (props) => {
 export default LineGraph
 
 LineGraph.propTypes = {
-    id: PropTypes.number,
+    averageSession: PropTypes.array,
 }

@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import axios from 'axios'
-import data from './data.json'
 
 const useMockedApi = (initialData) => {
     const [data, setData] = useState(initialData)

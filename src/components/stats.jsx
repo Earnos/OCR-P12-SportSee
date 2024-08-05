@@ -19,9 +19,7 @@ const Stats = (props) => {
 }
 export default Stats
 
-
 Stats.propTypes = {
-    id: PropTypes.number,
     stat: PropTypes.number,
     title: PropTypes.string,
     icone: PropTypes.string

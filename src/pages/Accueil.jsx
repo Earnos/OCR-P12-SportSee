@@ -22,9 +22,10 @@ const HomePage = () => {
 
     const [userMainData, setUserMainData] = useState({})
     const [userActivity, setUserActivity] = useState([])
-    const [userPerformance, setUserPerformance] = useState([])
+    const [userPerformance, setUserPerformance] = useState([{}])
     const [userAverageSessions, setAverageSessions] = useState([])
     const [userFirstName, setUserFirstName] = useState('')
+    const [fetchError, setFetchError] = useState(null)
 
     useEffect(() => {
         const fetchDataAndSetState = async () => {
@@ -37,18 +38,24 @@ const HomePage = () => {
                 setAverageSessions(api.getUserAverageSession(idUser))
                 const userInfo = await api.getUserName(idUser)
                 setUserFirstName(userInfo.firstName)
-
-                console.log(api.data)
             } catch (error) {
-                console.error('Erreur lors du chargement des données :', error)
+                setFetchError(error.message)
             }
         }
 
         fetchDataAndSetState()
     }, [idUser])
 
+    //contidionnal rendering IF fetching error
+    if (fetchError) {
+        return <div>Erreur lors du chargement des données : {fetchError}</div>
+    }
+
+    if (!userMainData || !userPerformance) {
+        return <div>Loading...</div>
+    }
+
     return (
-        // faire un contidionnal rendering pour la gestion derreur si fetching error (ternaire)
         <>
             <Header />
             <main className="page-container">

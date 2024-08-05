@@ -36,5 +36,5 @@ export default BarGraph
 
 
 BarGraph.propTypes = {
-    id: PropTypes.number
+    activity: PropTypes.array
 }

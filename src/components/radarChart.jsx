@@ -42,5 +42,5 @@ const RadarGraph = (props) => {
 export default RadarGraph
 
 RadarGraph.propTypes = {
-    id: PropTypes.number,
+    performance: PropTypes.arrayOf(Object)
 }
