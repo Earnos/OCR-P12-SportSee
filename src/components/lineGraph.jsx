@@ -13,7 +13,7 @@ const LineGraph = (props) => {
     const averageSession = props.averageSession
 
     const CustomXAxisTick = ({ x, y, payload }) => {
-        const weekDaysArray = ['L', 'M', 'M', 'J', 'V', 'S', 'S']
+        const weekDaysArray = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
         return (
                 <g transform={`translate(${x},${y})`}>
                     <text x={0} y={0} dy={16} textAnchor="middle" fill="#fff">
@@ -21,6 +21,17 @@ const LineGraph = (props) => {
                     </text>
                 </g>
         )
+    }
+     // Custom Tooltip Component
+     const CustomTooltip = ({ payload }) => {
+        if (payload && payload.length) {
+            return (
+                <div className="custom-tooltip">
+                    <p className="tooltip-content">{`${payload[0].payload.sessionLength} min`}</p>
+                </div>
+            )
+        }
+        return null
     }
     return (
         <ResponsiveContainer width="100%" height={300}>
@@ -34,7 +45,7 @@ const LineGraph = (props) => {
                 <CartesianGrid stroke="red" />
                 <YAxis dataKey="sessionLength" hide={true} padding={{top: 45, bottom: 45}} />
                 <XAxis dataKey="day" tick={<CustomXAxisTick />} axisLine={false} tickLine={false} />
-                <Tooltip />
+                <Tooltip  content={<CustomTooltip />}/>
                 
                 <Line
                     type="monotone"

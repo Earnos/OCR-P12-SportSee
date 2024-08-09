@@ -22,7 +22,7 @@ const HomePage = () => {
 
     const [userMainData, setUserMainData] = useState({})
     const [userActivity, setUserActivity] = useState([])
-    const [userPerformance, setUserPerformance] = useState([{}])
+    const [userPerformance, setUserPerformance] = useState([[]])
     const [userAverageSessions, setAverageSessions] = useState([])
     const [userFirstName, setUserFirstName] = useState('')
     const [fetchError, setFetchError] = useState(null)
@@ -42,11 +42,10 @@ const HomePage = () => {
                 setFetchError(error.message)
             }
         }
-
         fetchDataAndSetState()
     }, [idUser])
 
-    //contidionnal rendering IF fetching error
+    //contidionnal rendering fetching error
     if (fetchError) {
         return <div>Erreur lors du chargement des données : {fetchError}</div>
     }
@@ -74,7 +73,7 @@ const HomePage = () => {
                                 <div className="radar-container">
                                     <RadarGraph id={idUser}  performance={userPerformance} />
                                 </div>
-                                <ScoreGraph />
+                                <ScoreGraph id={idUser} score={userMainData.score} todayScore={userMainData.todayScore} />
                             </div>
                         </section>
                         <section className="right-graph-section">

@@ -4,17 +4,26 @@ import {
     Tooltip,
     ResponsiveContainer
 } from 'recharts'
+import PropTypes from 'prop-types'
 
+const ScoreGraph = (props) => {
+    const rawScore = props.score !== undefined ? props.score : props.todayScore;
+    const score = (rawScore || 0) * 100; // S'assurer que score est bien multiplié par 100
+    
+    // Validation du score
+    const validScore = Math.min(100, Math.max(0, score))
+    let data = [{ name: 'Score', value: validScore }]
+    
+    if (isNaN(score)) {
+        console.error('score est NaN:', score)
+        return null
+        }
 
-let data = [{ name: 'Score', value: '5' }]
-
-const ScoreGraph = () => {
     return (
         <ResponsiveContainer width="30%" height={220}>
             <div className='scoreGraphText'>
-                <span className='score-pourcentage'>65%</span><br/>
-                <span className='score-text' >de votre objectif</span>
-                
+                <span className='score-pourcentage'>{score}%</span><br/>
+                <span className='score-text' >de votre objectif</span>                
             </div>
             <div className='score-title'>
             <span >Score</span>
@@ -27,8 +36,8 @@ const ScoreGraph = () => {
                 cx={135}
                 cy={135}
                 data={data}
-                startAngle={230}
-                endAngle={55}
+                startAngle={100}
+                endAngle={200}
                 fill="red"
                 radius={[5, 5, 0, 0]}
             >
@@ -49,4 +58,9 @@ const ScoreGraph = () => {
     )
 }
 
-export default ScoreGraph
+export default ScoreGraph    
+
+ScoreGraph.propTypes = {
+    score: PropTypes.number,
+    todayScore: PropTypes.number
+}

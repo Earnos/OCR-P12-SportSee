@@ -195,6 +195,13 @@ table {
         margin-bottom: 1.5em;
     }
 }
+.Copyright {
+    font-size: small;
+    color: #ffffff;
+    transform: rotate(-90deg);
+    margin-left: -20%;
+    margin-top: 300%;
+}
 
 /* main */
 .page-container {
@@ -232,6 +239,15 @@ table {
     position: absolute;
     margin-left: 10%;
     font-weight: 600;
+}
+
+.custom-tooltip {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 5px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    color: #333;
 }
 
 .recharts-container {

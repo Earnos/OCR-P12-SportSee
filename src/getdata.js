@@ -42,10 +42,7 @@ const findUserStats = (key, userId) => {
     return result
 }
 
-//////////////////////////////////////////////////////////////////////
 // System api's switch class
-//////////////////////////////////////////////////////////////////////
-
 export class SwitchAPI {
     constructor(useExternalAPI = true, userId = 18) {
         this.useExternalAPI = useExternalAPI
@@ -68,7 +65,6 @@ export class SwitchAPI {
         return this.findUserSessions(key, userId)
     }
 
-    /////////////////////////
     getUserMainData = (userId) => {
         const key = 'USER_MAIN_DATA'
         const userData = findUserStats(key, userId)
@@ -76,7 +72,9 @@ export class SwitchAPI {
         if (!userData || !userData.keyData) {
             return null
         }
-
+        const { score, todayScore } = userData
+        // console.log('score :', score)
+        // console.log('todayScore :', todayScore)
         const { calorieCount, proteinCount, carbohydrateCount, lipidCount } =
             userData.keyData
 
@@ -85,6 +83,8 @@ export class SwitchAPI {
             proteinCount,
             carbohydrateCount,
             lipidCount,
+            score,
+            todayScore,
         }
     }
     getUserAverageSession(userId) {
