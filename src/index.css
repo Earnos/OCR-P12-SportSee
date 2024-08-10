@@ -136,8 +136,8 @@ table {
 .header-container {
     position: relative;
     display: flex;
-    justify-content: space-between;
     background-color: #000000;
+
     align-items: center;
     padding: 2%;
     width: 100vw;
@@ -157,13 +157,7 @@ table {
 }
 
 .header-nav-container {
-    position: absolute;
-    display: flex;
     height: 100%;
-    max-width: 85%;
-    right: 0;
-    top: 0;
-    margin-right: 10%;
     align-items: center;
     & .header-nav-link {
         color: #ffffff;
@@ -172,7 +166,7 @@ table {
         font-style: normal;
         line-height: 24px;
         text-decoration: none;
-        margin-left: 12em;
+        margin-left: 55%;
     }
 }
 
@@ -343,6 +337,21 @@ table {
     line-height: 1.5em;
 }
 
-/* .recharts-wrapper {
-    height: 240px;
-} */
+@media (max-width: 1400px) {
+    .header-nav-link {
+        margin-left: 35% !important;
+    }
+}
+
+@media (max-width: 1076px) {
+    .header-nav-link {
+        margin-left: 25% !important;
+    }
+}
+
+@media (max-width: 941px) {
+    .header-nav-link {
+        margin-left: 15% !important;
+        font-size: 20px !important;
+    }
+}
